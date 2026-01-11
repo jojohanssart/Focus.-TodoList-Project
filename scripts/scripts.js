@@ -22,7 +22,8 @@ const addTodo = () => {
     }
     todoList.push({
         text: inputElement.value,
-        isChecked: false
+        isChecked: false,
+        id: Date.now()
     });
     renderTodoList();
     
@@ -38,7 +39,6 @@ const renderTodoList = () => {
     let todoHTML = '';
     let visibleList;
 
-    
     if (currentFilter === 'all') {
         visibleList = todoList;
     } else if (currentFilter === 'active') {
@@ -47,23 +47,23 @@ const renderTodoList = () => {
         visibleList = todoList.filter(todo => todo.isChecked);
     }
 
-    visibleList.forEach((todo, index) => {
+    visibleList.forEach((todo) => {
     const html = `
         <div class="todo-item">
         <input type="checkbox"
-        onclick="toggleCheckbox(${index})"
+        onclick="toggleCheckbox(${todo.id})"
         ${todo.isChecked ? 'checked' : ''}
         >
         <p class="todo-text ${todo.isChecked ? 'done' : ''}">${todo.text}</p>
-        <button class="delete-btn" onclick="deleteTodo(${index})">Delete</button>
+        <button class="delete-btn" onclick="deleteTodo(${todo.id})">Delete</button>
         </div>
         `;
         todoHTML += html;
     });
 
-    document.querySelector('.all-filter-btn').innerText = `All (${todoList.length})`;
-    document.querySelector('.active-filter-btn').innerText = `Active (${todoList.filter(todo => !todo.isChecked).length})`;
-    document.querySelector('.completed-filter-btn').innerText = `Completed (${todoList.filter(todo => todo.isChecked).length})`;
+    
+    todoDisplay.innerHTML = todoHTML;
+    updateCounter();
 
     if (todoList.length === 0) {
         taskCounterElement.innerHTML =
@@ -75,32 +75,39 @@ const renderTodoList = () => {
         taskCounterElement.innerHTML =
         `Ready to check off that first box?`
     } 
+    
+    document.querySelector('.all-filter-btn').innerText = `All (${todoList.length})`;
+    document.querySelector('.active-filter-btn').innerText = `Active (${todoList.filter(todo => !todo.isChecked).length})`;
+    document.querySelector('.completed-filter-btn').innerText = `Completed (${todoList.filter(todo => todo.isChecked).length})`;
+    
 
-    todoDisplay.innerHTML = todoHTML;
-    updateCounter();
 }
 
 // Delete function
-const deleteTodo = (index) => {
-    todoList.splice(index, 1);
+const deleteTodo = (id) => {
+   const indexToDelete = todoList.findIndex((todo) => todo.id === id);
+    if (indexToDelete !== -1) {
+    todoList.splice(indexToDelete, 1);
     renderTodoList();
-    console.log(todoList);
     saveData();
+    }
 }
 
 // Checkbox function
-function toggleCheckbox (index) {
-    todoList[index].isChecked = !todoList[index].isChecked;
-
+function toggleCheckbox (id) {
+    const index = todoList.findIndex((todo) => todo.id === id);
+    
+    if (index !== -1) {
+    const todo = todoList[index];
+    todo.isChecked = !todo.isChecked;
     renderTodoList();
     saveData();
+    }
 }
 
 
 // Assign function to buttons
-buttonElement.addEventListener('click', () => {
-    addTodo();
-});
+buttonElement.addEventListener('click', () => addTodo());
 
 inputElement.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
@@ -122,12 +129,9 @@ bodyElement.addEventListener('keydown', (event) => {
 
 
 const updateCounter = () => {
-    const completedList = todoList.filter((todo) => {
-        return todo.isChecked;
-    });
+    const completedList = todoList.filter((todo) => todo.isChecked);
     const count = completedList.length;
     completedTask = count;
-    console.log(count);
 }
 
 
