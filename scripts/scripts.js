@@ -170,6 +170,9 @@ const updateMessage = () => {
     const completedTodo = todoList.filter(todo => todo.isChecked).length;
     const activeTodo = totalTodo - completedTodo;
 
+    const plural = completedTask === 1 ? '' : 's';
+    const activePlural = activeTodo === 1 ? '' : 's';
+
     let message = ``;
     if (currentFilter === 'all') {
         if (totalTodo === 0) {
@@ -179,7 +182,7 @@ const updateMessage = () => {
         } else if (completedTodo === totalTodo) {
             message = `All caught up! Time to relax.`
         } else if (activeTodo >= 0) {
-            message = `${completedTodo} tasks done. Keep going!`
+            message = `${completedTodo} task${activePlural} done. Keep going!`
         }
 
     } else if (currentFilter === 'active') {
@@ -190,7 +193,7 @@ const updateMessage = () => {
         } else if (completedTodo === totalTodo) {
             message = `All caught up! Time to relax.`
         } else if (activeTodo >= 0) {
-            message = `You have ${activeTodo} tasks left to do.`
+            message = `You have ${activeTodo} task${plural} left to do.`
         }
     } else if (currentFilter === 'completed') {
         if (totalTodo === 0) {
@@ -200,11 +203,26 @@ const updateMessage = () => {
         } else if (completedTodo === totalTodo) {
             message = `Look at all these ${completedTodo} wins. Nice work!`
         } else if (activeTodo >= 0) {
-            message = `${completedTodo} tasks done. ${activeTodo} tasks left. Keep it up!`
+            message = `${completedTodo} task${plural} done. ${activeTodo} task${activePlural} left. Keep it up!`
         }
     }
 
     taskCounterElement.innerHTML = message;
 }
+
+// For now I used AI for this real time date and clock
+const updateClock = () => {
+    const now = new Date();
+    const dateOptions = { weekday: 'long', month: 'short', day: 'numeric' };
+    const dateString = now.toLocaleDateString('en-US', dateOptions);
+
+    const timeString = now.toLocaleTimeString('en-US', { timeStyle: 'short' });
+
+    document.getElementById('dateDisplay').innerText = dateString;
+    document.getElementById('clockDisplay').innerText = timeString;
+}
+
+updateClock();
+setInterval(updateClock, 1000);
 
 renderTodoList();
