@@ -7,6 +7,7 @@ const bodyElement = document.querySelector('body');
 const checboxElement = document.querySelector('.checkbox');
 const taskCounterElement = document.querySelector('.counter');
 const clearAllButtonElement = document.querySelector('.clear-all-div');
+const bottomDividerElement = document.querySelector('.bottom-divider');
 
 const todoDisplay = document.querySelector('.todo-list');
 
@@ -43,12 +44,18 @@ const renderTodoList = () => {
     visibleList.forEach((todo) => {
         const html = `
         <div class="todo-item">
+        <div class="todo-item-left-section">
         <input type="checkbox"
         onclick="toggleCheckbox(${todo.id})"
         ${todo.isChecked ? 'checked' : ''}
         >
         <p class="todo-text ${todo.isChecked ? 'done' : ''}">${todo.text}</p>
-        <button class="delete-btn" onclick="deleteTodo(${todo.id})">Delete</button>
+        </div>
+        <button class="delete-btn" onclick="deleteTodo(${todo.id})">
+            <span class="material-symbols-outlined">
+                delete
+            </span>
+        </button>
         </div>
         `;
         todoHTML += html;
@@ -56,6 +63,7 @@ const renderTodoList = () => {
     todoDisplay.innerHTML = todoHTML;
     updateCounter();
     updateMessage();
+    hideDivider();
 
     document.querySelector('.all-filter-btn').innerText = `All (${todoList.length})`;
     document.querySelector('.active-filter-btn').innerText = `To Do (${todoList.filter(todo => !todo.isChecked).length})`;
@@ -181,8 +189,8 @@ const updateMessage = () => {
             message = `Ready to check off that first box?`
         } else if (completedTodo === totalTodo) {
             message = `All caught up! Time to relax.`
-        } else if (activeTodo >= 0) {
-            message = `${completedTodo} task${activePlural} done. Keep going!`
+        } else if (activeTodo > 0) {
+            message = `${completedTodo} task${plural} done. Keep going!`
         }
 
     } else if (currentFilter === 'active') {
@@ -199,7 +207,7 @@ const updateMessage = () => {
         if (totalTodo === 0) {
             message = `Nothing here yet. Let's make today's count!`
         } else if (completedTodo === 0) {
-            message = `No completed tasks yet. Let's start small!`
+            message = `No completed tasks yet. It's time to focus!`
         } else if (completedTodo === totalTodo) {
             message = `Look at all these ${completedTodo} wins. Nice work!`
         } else if (activeTodo >= 0) {
@@ -224,5 +232,11 @@ const updateClock = () => {
 
 updateClock();
 setInterval(updateClock, 1000);
+
+const hideDivider = () => {
+    if (todoList.length === 0) {
+        bottomDividerElement.classList.add('hide')
+    } else bottomDividerElement.classList.remove('hide');
+}
 
 renderTodoList();
