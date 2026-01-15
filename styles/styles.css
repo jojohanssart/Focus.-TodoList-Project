@@ -32,10 +32,8 @@ h1 {
 }
 
 body {
-    height: 100vh;
     background-image: linear-gradient(#F4F4F4, #FFF);
-
-    margin-bottom: 5rem;
+    margin: 1.5rem 0 0 0;
 }
 
 
@@ -47,20 +45,24 @@ body {
     align-items: center;
 
     gap: 2rem;
-    margin: 1.5rem 1.5rem 0rem 1.5rem;
+    margin: 0rem 1.5rem;
 }
 
 .daily-logo {
     font-family: 'Archivo Black', sans-serif;
     font-weight: bold;
-    font-size: clamp(3rem, 5vw + 1rem, 4rem);
+    font-size: clamp(3rem, 6vw + 1.15rem, 5.5rem);
 }
 
 .header-info {
-    font-size: 12px;
+    font-size: 0.75rem;
     color: var(--grey);
 }
 
+.content-card {
+    margin: 1.5rem;
+    margin-bottom: 4rem;
+}
 
 /*  Content */
 .content-container {
@@ -69,8 +71,8 @@ body {
     justify-content: space-between;
     gap: 1rem;
 
-    margin: 0rem 1.5rem;
-    margin-bottom: 4rem;
+    max-width: 768px;
+    margin: 0rem 1.5rem 0 0;
 }
 
 .top-component-section {
@@ -93,7 +95,7 @@ body {
     display: flex;
     flex: 1;
     min-width: 200px;
-    max-width: 600px;
+    max-width: 800px;
 
     border-radius: 4px;
     border: 1px solid var(--light-grey);
@@ -124,7 +126,7 @@ body {
 
 .add-btn:hover {
     transform: scale(1.06);
-    opacity: 0.9;
+    box-shadow: 0px 6px 12px rgba(78, 78, 78, 0.42);
 }
 
 .add-btn:active {
@@ -155,13 +157,20 @@ body {
 .filter-btn:hover {
     background-color: var(--white-background);
     color: var(--black);
+
     transition: all 0.3s ease-out;
 }
 
 .filter-btn.active-filter {
     background-color: var(--black);
     color: var(--white);
+    box-shadow: 0px 6px 12px rgba(78, 78, 78, 0.42);
+
     transition: all 0.35s ease-out;
+}
+
+.filter-btn.active-filter:hover {
+    background-color: var(--black);
 }
 
 /*  Grey line divider   */
@@ -181,6 +190,9 @@ hr.grey-line-divider.hide {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+
+    max-height: 288px;
+    overflow-y: auto;
 }
 
 .todo-item {
@@ -189,11 +201,12 @@ hr.grey-line-divider.hide {
     justify-content: space-between;
     gap: 1rem;
 
-    height: 72px;
+    min-height: 72px;
     min-width: 200px;
     max-width: 800px;
 
     padding: 0.75rem 1.625rem;
+    padding-right: 5px;
 
     border: 1px solid var(--light-grey);
     border-radius: 8px;
@@ -201,8 +214,24 @@ hr.grey-line-divider.hide {
     transition: all 0.15s ease-out;
 }
 
+.todo-item::-webkit-scrollbar {
+    width: 6px;
+}
+
+.todo-item::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.todo-item::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.todo-item::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
 .todo-item:hover {
-    box-shadow: 0px 1px 4px rgba(12, 12, 13, 0.15);
     box-shadow: 0px 1px 4px rgba(12, 12, 13, 0.2);
 }
 

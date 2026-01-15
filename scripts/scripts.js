@@ -199,7 +199,7 @@ const updateMessage = () => {
         } else if (completedTodo === totalTodo) {
             message = `All caught up! Time to relax.`
         } else if (activeTodo >= 0) {
-            message = `You have ${activeTodo} task${plural} left to do.`
+            message = `You have ${activeTodo} task${activePlural} left to do.`
         }
     } else if (currentFilter === 'completed') {
         if (totalTodo === 0) {
