@@ -1,6 +1,6 @@
 @media (min-width: 768px) {
     body {
-        background-image: url(../../styles/assets/background-desktop.jpg);
+        background-image: url(../styles/assets/background-desktop.jpg);
 
         background-size: cover;
         background-position: center;
